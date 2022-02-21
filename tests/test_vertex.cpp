@@ -73,8 +73,8 @@ int main()
 
     // Example #3
     DFS<int> testDFS3(testGraph3);
-    testDFS2.Iterate(S1); // Output: DFS from vertex 1 : 1 2 0 3
-    testDFS2.Iterate(S2); // Output: DFS from vertex 2 : 2 0 1 3
+    testDFS3.Iterate(S1); // Output: DFS from vertex 1 : 1 2 0 3
+    testDFS3.Iterate(S2); // Output: DFS from vertex 2 : 2 0 1 3
     // testGraph3.DFS(S1);
     // testGraph3.DFS(S2);
 }

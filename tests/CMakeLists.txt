@@ -1,6 +1,8 @@
 Project(examples)
 
-SET(TEST_SRC_FILE_NAMES test_vertex)
+SET(TEST_SRC_FILE_NAMES test_vertex
+                        test_matrix
+                        test_adjmatrix)
 
 INCLUDE_DIRECTORIES(${INCLUDE_DIR})
 FOREACH(TEST IN LISTS TEST_SRC_FILE_NAMES)
