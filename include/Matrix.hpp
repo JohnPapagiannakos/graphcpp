@@ -4,7 +4,7 @@
 #include <iostream>
 #include <array>
 
-template <typename T, std::size_t rows, std::size_t columns>
+template <typename T>
 class Matrix
 {
     protected:
@@ -14,10 +14,10 @@ class Matrix
 
     std::size_t _Cols;
 
-    std::array<std::array<T, columns>, rows> Data;
+    T **Data;
 
     public:
-    Matrix() : _Dimensions({rows,columns}), _Rows(rows), _Cols(columns) {}
+    Matrix(std::size_t rows, std::size_t columns) : _Dimensions({rows,columns}), _Rows(rows), _Cols(columns) { allocate();}
 
     inline T &operator()(size_t i, size_t j) { 
         if( (i>=0) && (i<_Rows) && (j>=0) && (j<_Cols) ) 
@@ -38,9 +38,9 @@ class Matrix
             return *this;
         }
 
-        if (_Rows != M._Rows || _Cols != M._Cols_)
+        if (_Rows != M._Rows || _Cols != M._Cols)
         {
-           std::cerr << "_Rows != M._Rows || _Cols != M._Cols_" << std::endl;
+           std::cerr << "_Rows != M._Rows || _Cols != M._Cols" << std::endl;
         }
 
         for (size_t row = 0; row < _Rows; row++)
@@ -76,24 +76,53 @@ class Matrix
         }
     }
 
-    ~Matrix(){ }
+    void allocate(void)
+    {
+        Data = new T*[_Rows];
+        for (size_t row = 0; row < _Rows; row++)
+        {
+            Data[row] = new T[_Cols];
+        }
+    }
+
+    ~Matrix()
+    {
+        for (size_t row = 0; row < _Rows; row++)
+        {
+            delete[] Data[row];
+        }
+        delete[] Data;
+    }
 };
 
-template <std::size_t rows, std::size_t columns>
-class AdjacencyMatrix : public Matrix<int, rows, columns>
+class AdjacencyMatrix : public Matrix<int>
 {
     public:
-    AdjacencyMatrix() : Matrix<int, rows, columns>() {setZero();}
+    AdjacencyMatrix(std::size_t rows, std::size_t columns) : Matrix(rows, columns) {setZero();}
 
     void setZero(void)
     {
-        Matrix<int, rows, columns>::setConstant(0);
+        Matrix<int>::setConstant(0);
     }
 
     void setOnes(void)
     {
-        Matrix<int, rows, columns>::setConstant(1);
+        Matrix<int>::setConstant(1);
     }
+
+    AdjacencyMatrix transpose(void)
+    {
+        AdjacencyMatrix M(_Cols, _Rows);
+        for (size_t row = 0; row < Matrix<int>::_Rows; row++)
+        {
+            for (size_t col = 0; col < Matrix<int>::_Cols; col++)
+            {
+                M(col, row) = Matrix<int>::Data[row][col];
+            }
+        }
+        return M;
+    }
+
 };
 
 #endif
