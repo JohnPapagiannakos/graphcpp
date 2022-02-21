@@ -1,19 +1,11 @@
 cmake_minimum_required(VERSION 3.18 FATAL_ERROR)
 project(GraphC++)
 
-option(USE_CUDA "Use CUDA" ON)
-
-set(CMAKE_CUDA_ARCHITECTURES 75 CACHE STRING "CUDA architectures" FORCE)
-
-set(CUDA_INCLUDE_DIRS            /usr/local/cuda-11.2/include/ ${CUDA_INCLUDE_DIRS})
-
-
 SET(INCLUDE_DIR                  "${CMAKE_CURRENT_LIST_DIR}/include")
 SET(BIN_DIR                      "${CMAKE_CURRENT_LIST_DIR}/bin")
 
 
 SET(TEST_SRC_DIR                 ${CMAKE_CURRENT_LIST_DIR})
-# SET(TEST_SRC_FILES               ${TEST_SRC_DIR}/CUDA/test_julia.cu)
 
 SET(TEST_HEADER_FILES            ${INCLUDE_DIR})
 INCLUDE_DIRECTORIES(             ${TEST_HEADER_FILES})
