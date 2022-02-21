@@ -54,6 +54,23 @@ class Matrix
         return *this;
     }
 
+    Matrix &operator+=(const Matrix &M)
+    {
+        if (_Rows != M._Rows || _Cols != M._Cols)
+        {
+            std::cerr << "_Rows != M._Rows || _Cols != M._Cols" << std::endl;
+        }
+
+        for (size_t row = 0; row < _Rows; row++)
+        {
+            for (size_t col = 0; col < _Cols; col++)
+            {
+                Data[row][col] += M.Data[row][col];
+            }
+            return *this;
+        }
+    }
+
     void setConstant(int value_type)
     {
         for (size_t row = 0; row < _Rows; row++)
@@ -63,6 +80,24 @@ class Matrix
                 Data[row][col] = value_type;
             }
         }
+    }
+
+    bool isSymmetric(void)
+    {
+        if (_Rows != _Cols)
+        {
+            std::cerr << "Error: _Rows != _Cols" << std::endl;
+            return false;
+        }
+        for (size_t row = 1; row < _Rows; row++)
+        {
+            for (size_t col = 0; col < row; col++)
+            {
+                if (Data[row][col] != Data[col][row])
+                    return false;
+            }
+        }
+        return true;
     }
 
     void Print(void)

@@ -125,6 +125,11 @@ class UndirectedGraphAdj : public UndirectedGraph<T>
 
     void CreateGraph(void)
     {
+        if(!A.isSymmetric())
+        {
+            std::cerr << "Adjacency matrix should be symmetric! " << std::endl;
+            return;
+        }
         size_t v_idx = 0; // row of upper triangular of A (symmetric)
         for (auto &v : UndirectedGraph<T>::Vertices)
         {
