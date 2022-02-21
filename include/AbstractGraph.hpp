@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include "Vertex.hpp"
+#include "Matrix.hpp"
 
 template <typename T>
 class AbstractGraph
@@ -11,7 +12,7 @@ class AbstractGraph
     public:
     AbstractGraph() {}
 
-    AbstractGraph(std::vector<Vertex<T>> vertices) : Vertices(vertices) {}
+    AbstractGraph(std::vector<Vertex<T>*> vertices) : Vertices(vertices) {}
 
     std::vector<Vertex<T> *> Vertices;
     std::vector<Vertex<T> *> Visited;
@@ -85,13 +86,13 @@ class UndirectedGraph : public AbstractGraph<T>
 {
     public:
     UndirectedGraph() {}
-    UndirectedGraph(std::vector<Vertex<T>> vertices) : AbstractGraph<T>(vertices) {}
+    UndirectedGraph(std::vector<Vertex<T>*> vertices) : AbstractGraph<T>(vertices) {}
 
     void AddPair(Vertex<T> &first, Vertex<T> &second)
     {
         AddNeighbors(first, second);
         AbstractGraph<T>::AddVertex(first);
-        AbstractGraph<T> ::AddVertex(second);
+        AbstractGraph<T>::AddVertex(second);
     }
 
     void RemovePair(Vertex<T> &first, Vertex<T> &second)
@@ -115,12 +116,38 @@ class UndirectedGraph : public AbstractGraph<T>
 };
 
 template <typename T>
+class UndirectedGraphAdj : public UndirectedGraph<T>
+{
+    public:
+    UndirectedGraphAdj(std::vector<Vertex<T>*> vertices, AdjacencyMatrix adj) : UndirectedGraph<T>(vertices), A(adj) { CreateGraph();}
+
+    AdjacencyMatrix A;
+
+    void CreateGraph(void)
+    {
+        size_t v_idx = 0; // row of upper triangular of A (symmetric)
+        for (auto &v : UndirectedGraph<T>::Vertices)
+        {
+            // iterate over 
+            for (size_t col=v_idx; col<A.Cols(); col++)
+            {
+                if(A(v_idx,col) != 0)
+                {
+                    UndirectedGraph<T>::AddPair(*v, *UndirectedGraph<T>::Vertices[col]);
+                }
+            }
+            v_idx++;
+        }
+    }
+};
+
+template <typename T>
 class DirectedGraph : public AbstractGraph<T>
 {
     public:
     DirectedGraph() {}
 
-    DirectedGraph(std::vector<Vertex<T>> vertices) : AbstractGraph<T>(vertices) {}
+    DirectedGraph(std::vector<Vertex<T>*> vertices) : AbstractGraph<T>(vertices) {}
 
     void AddPair(Vertex<T> &first, Vertex<T> &second)
     {
@@ -147,4 +174,29 @@ class DirectedGraph : public AbstractGraph<T>
     ~DirectedGraph() {}
 };
 
+template <typename T>
+class DirectedGraphAdj : public DirectedGraph<T>
+{
+public:
+    DirectedGraphAdj(std::vector<Vertex<T> *> vertices, AdjacencyMatrix adj) : DirectedGraph<T>(vertices), A(adj) { CreateGraph(); }
+
+    AdjacencyMatrix A;
+
+    void CreateGraph(void)
+    {
+        size_t v_idx = 0; // row of upper triangular of A (symmetric)
+        for (auto &v : DirectedGraph<T>::Vertices)
+        {
+            // iterate over
+            for (size_t col = 0; col < A.Cols(); col++)
+            {
+                if (A(v_idx, col) != 0)
+                {
+                    DirectedGraph<T>::AddPair(*v, *DirectedGraph<T>::Vertices[col]);
+                }
+            }
+            v_idx++;
+        }
+    }
+};
 #endif
