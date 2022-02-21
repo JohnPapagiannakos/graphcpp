@@ -184,7 +184,7 @@ public:
 
     void CreateGraph(void)
     {
-        size_t v_idx = 0; // row of upper triangular of A (symmetric)
+        size_t v_idx = 0;
         for (auto &v : DirectedGraph<T>::Vertices)
         {
             // iterate over
