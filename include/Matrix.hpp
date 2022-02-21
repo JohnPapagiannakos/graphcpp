@@ -3,7 +3,7 @@
 
 #include <iostream>
 #include <array>
-
+#include <cassert>
 template <typename T>
 class Matrix
 {
@@ -18,6 +18,7 @@ class Matrix
 
     public:
     Matrix(std::size_t rows, std::size_t columns) : _Dimensions({rows,columns}), _Rows(rows), _Cols(columns) { allocate();}
+    Matrix() : _Dimensions({1,1}), _Rows(1), _Cols(1) {allocate();}
 
     inline T &operator()(size_t i, size_t j) { 
         if( (i>=0) && (i<_Rows) && (j>=0) && (j<_Cols) ) 
@@ -88,27 +89,37 @@ class Matrix
 
     void allocate(void)
     {
-        Data = new T*[_Rows];
-        for (size_t row = 0; row < _Rows; row++)
+        Data = new T *[_Rows];
+        for (size_t row = 0; row < _Rows; ++row)
         {
             Data[row] = new T[_Cols];
+            assert(Data[row]);
         }
     }
 
-    ~Matrix()
+    void deallocate(void)
     {
         // for (size_t row = 0; row < _Rows; row++)
         // {
         //     delete[] Data[row];
         // }
         // delete[] Data;
+        delete[] Data[0];
+        delete[] Data;
+        Data = nullptr;
     }
+
+    // ~Matrix()
+    // {
+    //     deallocate();
+    // }
 };
 
 class AdjacencyMatrix : public Matrix<int>
 {
     public:
-    AdjacencyMatrix(std::size_t rows, std::size_t columns) : Matrix(rows, columns) {setZero();}
+    AdjacencyMatrix(std::size_t rows, std::size_t columns) : Matrix(rows, columns) { Matrix<int>::allocate(); setZero();}
+    AdjacencyMatrix() : Matrix() { Matrix<int>::allocate(); setZero(); }
 
     void setZero(void)
     {
@@ -133,6 +144,10 @@ class AdjacencyMatrix : public Matrix<int>
         return M;
     }
 
+    // ~AdjacencyMatrix()
+    // {
+    //     // Matrix<int>::deallocate();
+    // }
 };
 
 #endif
