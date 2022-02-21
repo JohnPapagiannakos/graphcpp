@@ -76,6 +76,16 @@ class Matrix
         }
     }
 
+    size_t Rows()
+    {
+        return _Rows;
+    }
+
+    size_t Cols()
+    {
+        return _Cols;
+    }
+
     void allocate(void)
     {
         Data = new T*[_Rows];
@@ -87,11 +97,11 @@ class Matrix
 
     ~Matrix()
     {
-        for (size_t row = 0; row < _Rows; row++)
-        {
-            delete[] Data[row];
-        }
-        delete[] Data;
+        // for (size_t row = 0; row < _Rows; row++)
+        // {
+        //     delete[] Data[row];
+        // }
+        // delete[] Data;
     }
 };
 
