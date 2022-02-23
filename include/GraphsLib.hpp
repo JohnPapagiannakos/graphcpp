@@ -8,6 +8,7 @@
 
 #include "Vertex.hpp"
 #include "AbstractGraph.hpp"
+#include "AbstractWeightedGraph.hpp"
 #include "Algorithms.hpp"
 #include "Matrix.hpp"
 
