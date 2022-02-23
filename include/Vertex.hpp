@@ -45,12 +45,6 @@ class Vertex
         {
             Neighbors.push_back(&newVertex);
         }
-        // std::cout << "{" << Value << "} add edge : {" << newVertex.Value << "}: -> new size is "  << NeighborCount() << std::endl;
-        // for(auto &it: Neighbors)
-        // {
-        //     std::cout << it->Value << "\t";
-        // }
-        // std::cout << std::endl;
     }
 
     // void AddEdges(std::vector<Vertex<T>> newVertices)
@@ -75,6 +69,36 @@ class Vertex
         // }
         // Neighbors.clear();
     };
+};
+
+template <typename T, typename W>
+class WeightedVertex : public Vertex<T>
+{
+    public:
+    WeightedVertex(T value) : Vertex<T>(value){};
+
+    std::vector<W> Weight;
+
+    void AddEdge(Vertex<T> &newVertex, W weight)
+    {
+        if (!Vertex<T>::ContainsEdge(newVertex))
+        {
+            Vertex<T>::Neighbors.push_back(&newVertex);
+            Weight.push_back(weight);
+        }
+    }
+
+    void RemoveEdge(Vertex<T> unusedVertex)
+    {
+        typename std::vector<Vertex<T>>::iterator idx = Vertex<T>::FindEdge(unusedVertex);
+        if (idx != Vertex<T>::Neighbors.end())
+        {
+            Vertex<T>::Neighbors.erase(idx);
+            Weight.erase(idx);
+        }
+    }
+
+    ~WeightedVertex(){};
 };
 
 #endif
