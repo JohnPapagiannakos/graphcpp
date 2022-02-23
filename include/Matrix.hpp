@@ -100,6 +100,23 @@ class Matrix
         return true;
     }
 
+    void CopyData(T *p, size_t rows, size_t cols)
+    {
+        if (_Rows != rows || _Cols != cols)
+        {
+            std::cerr << "_Rows != rows || _Cols != cols" << std::endl;
+            return;
+        }
+    
+        for (size_t row = 0; row < _Rows; row++)
+        {
+            for (size_t col = 0; col < _Cols; col++)
+            {
+                Data[row][col] = *(p + row * _Rows + col);
+            }
+        }
+    }
+
     void Print(void)
     {
         for (size_t row = 0; row < _Rows; row++)
