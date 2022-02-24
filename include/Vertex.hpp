@@ -72,28 +72,55 @@ class Vertex
 };
 
 template <typename T, typename W>
-class WeightedVertex : public Vertex<T>
+class WeightedVertex
 {
     public:
-    WeightedVertex(T value) : Vertex<T>(value){};
+    WeightedVertex(T value) : Value(value){}
+
+    WeightedVertex(T value, std::vector<WeightedVertex<T, W>> neighbors) : Value(value), Neighbors(neighbors) {}
+
+    T Value;
+
+    std::vector<WeightedVertex<T,W> *> Neighbors;
 
     std::vector<W> Weight;
 
-    void AddEdge(Vertex<T> &newVertex, W weight)
+    bool operator==(const WeightedVertex<T,W> &v2) const
     {
-        if (!Vertex<T>::ContainsEdge(newVertex))
+        return (this->Value == v2.Value);
+    }
+
+    typename std::vector<WeightedVertex<T,W> *>::iterator FindEdge(const WeightedVertex<T,W> &vertex)
+    {
+        return std::find(Neighbors.begin(), Neighbors.end(), &vertex);
+    }
+
+    bool ContainsEdge(const WeightedVertex<T,W> &vertex)
+    {
+        typename std::vector<WeightedVertex<T,W> *>::iterator idx = FindEdge(vertex);
+        return (idx != Neighbors.end());
+    }
+
+    int NeighborCount(void)
+    {
+        return Neighbors.size();
+    }
+
+    void AddEdge(WeightedVertex<T,W> &newVertex, W weight)
+    {
+        if (!ContainsEdge(newVertex))
         {
-            Vertex<T>::Neighbors.push_back(&newVertex);
+            Neighbors.push_back(&newVertex);
             Weight.push_back(weight);
         }
     }
 
-    void RemoveEdge(Vertex<T> unusedVertex)
+    void RemoveEdge(WeightedVertex<T,W> unusedVertex)
     {
-        typename std::vector<Vertex<T>>::iterator idx = Vertex<T>::FindEdge(unusedVertex);
-        if (idx != Vertex<T>::Neighbors.end())
+        typename std::vector<WeightedVertex<T,W>>::iterator idx = FindEdge(unusedVertex);
+        if (idx != Neighbors.end())
         {
-            Vertex<T>::Neighbors.erase(idx);
+            Neighbors.erase(idx);
             Weight.erase(idx);
         }
     }
