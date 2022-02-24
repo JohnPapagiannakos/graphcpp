@@ -15,7 +15,6 @@ class AbstractGraph
     AbstractGraph(std::vector<Vertex<T>*> vertices) : Vertices(vertices) {}
 
     std::vector<Vertex<T> *> Vertices;
-    std::vector<Vertex<T> *> Visited;
 
     int VerticesCount(void)
     {

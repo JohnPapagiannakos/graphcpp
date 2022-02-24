@@ -15,7 +15,6 @@ public:
     AbstractWeightedGraph(std::vector<WeightedVertex<T,W> *> vertices) : Vertices(vertices) {}
 
     std::vector<WeightedVertex<T,W> *> Vertices;
-    std::vector<WeightedVertex<T,W> *> Visited;
 
     int VerticesCount(void)
     {
