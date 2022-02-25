@@ -1,9 +1,12 @@
 #ifndef ALGORITHMS_HPP
 #define ALGORITHMS_HPP
+#define INF 0x3f3f3f3f
+
 #include <algorithm>
 #include <vector>
 #include <list>
 #include <unordered_map>
+#include <bits/stdc++.h>
 
 #include "Vertex.hpp"
 #include "AbstractGraph.hpp"
@@ -156,6 +159,101 @@ class BFS
                 }
             }
         }
+    }
+};
+
+template <typename T, typename W>
+class ShortestPath
+{
+    public:
+    
+    ShortestPath(AbstractWeightedGraph<T,W> graph) : Graph(graph) {}
+    
+    AbstractWeightedGraph<T,W> Graph;
+
+    std::set<std::pair<W, WeightedVertex<T, W> *>> setOfPairs;
+
+    // Store distances in a vector and initialize all distances as infinite (INF)
+    std::vector<W> Distance;
+
+    size_t find(std::vector<WeightedVertex<T, W> *> &vec, WeightedVertex<T, W> *current_vertex)
+    {
+        typename std::vector<WeightedVertex<T, W> *>::iterator u_itr = vec.begin();
+        for (; u_itr != vec.end(); ++u_itr)
+        {
+            if (current_vertex->Value == (*u_itr)->Value)
+                break;
+            else
+                continue;
+        }
+        size_t curr_vertex_idx = std::distance(vec.begin(), u_itr);
+    }
+
+    void Print(WeightedVertex<T, W> rootVertex)
+    {
+        // Print shortest distances stored in Distance[]
+        std::cout << "Vertex\tDistance from Source " << rootVertex.Value << std::endl;
+        for (int i = 0; i < Graph.VerticesCount(); ++i)
+            std::cout << (Graph.Vertices[i])->Value << "\t" << Distance[i] << std::endl;
+    }
+
+    void DijkstraShortestPath(WeightedVertex<T,W> rootVertex)
+    {
+        // Clean
+        setOfPairs.clear();
+        Distance.clear();
+
+        for (auto &vertex : Graph.Vertices)
+        {
+            if (rootVertex.Value == vertex->Value)
+            {
+                Distance.push_back(0);
+            }
+            else
+            {
+                Distance.push_back(INF);
+            }
+        }
+
+        // Insert source vertex in Set and initialize its distance as 0.
+        setOfPairs.insert(std::make_pair(0, &rootVertex));
+
+        // Loop until all shortest distance are finalized
+        while (!setOfPairs.empty())
+        {
+            std::pair<W, WeightedVertex<T, W> *> current_pair = *(setOfPairs.begin());
+            setOfPairs.erase(setOfPairs.begin());
+
+            WeightedVertex<T, W> *current_vertex = current_pair.second;
+            
+            size_t curr_vertex_idx = find(Graph.Vertices, current_vertex);
+
+            typename std::vector<WeightedVertex<T, W> *>::iterator neighbor;
+            typename std::vector<W>::iterator weight;
+            for (neighbor = current_vertex->Neighbors.begin(), weight = current_vertex->Weight.begin(); neighbor != current_vertex->Neighbors.end(); ++neighbor, ++weight)
+            {
+                size_t neighbor_idx = find(Graph.Vertices, *neighbor);
+
+                //    If there is shorter path to v through current_vertex.
+                if (Distance[neighbor_idx] > Distance[curr_vertex_idx] + *weight)
+                {
+                    /*  If distance of v is not INF then it must be in
+                        our set, so removing it and inserting again
+                        with updated less distance.
+                        Note : We extract only those vertices from Set
+                        for which distance is finalized. So for them,
+                        we would never reach here.  */
+                    if (Distance[neighbor_idx] != INF)
+                        setOfPairs.erase(setOfPairs.find(std::make_pair(Distance[neighbor_idx], *neighbor)));
+
+                    // Updating distance of v
+                    Distance[neighbor_idx] = Distance[curr_vertex_idx] + *weight;
+                    setOfPairs.insert(std::make_pair(Distance[neighbor_idx], *neighbor));
+                }
+            }
+        }
+
+        Print(rootVertex);
     }
 };
 
