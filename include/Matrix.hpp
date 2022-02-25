@@ -67,8 +67,8 @@ class Matrix
             {
                 Data[row][col] += M.Data[row][col];
             }
-            return *this;
         }
+        return *this;
     }
 
     void setConstant(int value_type)
