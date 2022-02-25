@@ -1,6 +1,5 @@
 #ifndef ALGORITHMS_HPP
 #define ALGORITHMS_HPP
-#define INF 0x3f3f3f3f
 
 #include <algorithm>
 #include <vector>
@@ -8,6 +7,7 @@
 #include <unordered_map>
 #include <bits/stdc++.h>
 
+#include "Constants.hpp"
 #include "Vertex.hpp"
 #include "AbstractGraph.hpp"
 
@@ -179,7 +179,7 @@ class ShortestPath
 
     std::set<std::pair<W, WeightedVertex<T, W> *>> setOfPairs;
 
-    // Store distances in a vector and initialize all distances as infinite (INF)
+    // Store distances in a vector and initialize all distances as infinite (POSINF)
     std::vector<W> Distance;
 
     size_t find(std::vector<WeightedVertex<T, W> *> &vec, WeightedVertex<T, W> *current_vertex)
@@ -219,7 +219,7 @@ class ShortestPath
             }
             else
             {
-                Distance.push_back(INF);
+                Distance.push_back(POSINF);
             }
         }
 
@@ -245,8 +245,8 @@ class ShortestPath
                 // If there is shorter path to neighbor through current_vertex.
                 if (Distance[neighbor_idx] > Distance[curr_vertex_idx] + *weight)
                 {
-                    // If distance of neighbor is not INF then it must be inserted in our set
-                    if (Distance[neighbor_idx] != INF)
+                    // If distance of neighbor is not +INF then it must be inserted in our set
+                    if (Distance[neighbor_idx] != POSINF)
                         setOfPairs.erase(setOfPairs.find(std::make_pair(Distance[neighbor_idx], *neighbor)));
 
                     // Updating distance of neighbor
