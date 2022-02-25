@@ -22,6 +22,15 @@ class DFS
 
     std::vector<Vertex<T> *> Visited;
 
+    void Print(void)
+    {
+        for (auto &v : Visited)
+        {
+            std::cout << v->Value << "\t";
+        }
+        std::cout << std::endl;
+    }
+
     void MakeUnvisited(void)
     {
         for (auto &vertex : Visited)
@@ -36,11 +45,7 @@ class DFS
         MakeUnvisited();
         std::cout << "Starting DFS using vertex : " << rootVertex.Value << " as root" << std::endl;
         RecursiveDFS(Visited, rootVertex);
-        for(auto &v: Visited)
-        {
-            std::cout << v->Value << "\t";
-        }
-        std::cout << std::endl;
+        Print();
     }
 
     void IterateAll(void)
@@ -50,11 +55,7 @@ class DFS
         {
             std::cout << "Starting DFS using vertex : " << rootVertex->Value << " as root" << std::endl;
             RecursiveDFS(Visited, *rootVertex);
-            for (auto &v : Visited)
-            {
-                std::cout << v->Value << "\t";
-            }
-            std::cout << std::endl;
+            Print();
         }
     }
 
@@ -106,6 +107,15 @@ class BFS
 
     std::list<Vertex<T> *> Queue;
 
+    void Print(void)
+    {
+        for (auto &v : Visited)
+        {
+            std::cout << v->Value << "\t";
+        }
+        std::cout << std::endl;
+    }
+
     void MakeUnvisited(void)
     {
         for (auto &vertex : Visited)
@@ -126,11 +136,7 @@ class BFS
         MakeUnvisited();
         std::cout << "Starting BFS using vertex : " << rootVertex.Value << " as root" << std::endl;
         IterativeBFS(rootVertex);
-        for(auto &v: Visited)
-        {
-            std::cout << v->Value << "\t";
-        }
-        std::cout << std::endl;
+        Print();
     }
 
     void IterativeBFS(Vertex<T> &rootVertex)
@@ -187,6 +193,8 @@ class ShortestPath
                 continue;
         }
         size_t curr_vertex_idx = std::distance(vec.begin(), u_itr);
+        assert(curr_vertex_idx>=0);
+        return curr_vertex_idx;
     }
 
     void Print(WeightedVertex<T, W> rootVertex)
