@@ -51,4 +51,35 @@ int main()
 
     ShortestPath<int, double> testDijstra2(testWeightedGraph2);
     testDijstra2.DijkstraShortestPath(E0);
+
+    std::cout << std::endl << std::endl;
+
+    // Example #3 -- Directed Weighted Graph
+    WeightedVertex<char, double> A('A');
+    WeightedVertex<char, double> B('B');
+    WeightedVertex<char, double> C('C');
+    WeightedVertex<char, double> S('S');
+    WeightedVertex<char, double> T('T');
+    WeightedVertex<char, double> F('F');
+
+    UndirectedWeightedGraph<char, double> testWeightedGraph3;
+    testWeightedGraph3.AddPair(S, A, 3);
+    testWeightedGraph3.AddPair(S, B, 4);
+    testWeightedGraph3.AddPair(B, F, 5);
+    testWeightedGraph3.AddPair(A, B, 6);
+    testWeightedGraph3.AddPair(A, F, 7);
+    testWeightedGraph3.AddPair(A, C, 2);
+    testWeightedGraph3.AddPair(C, F, 1);
+    testWeightedGraph3.AddPair(C, T, 8);
+    testWeightedGraph3.AddPair(F, T, 4);
+
+    // Show Graph
+    testWeightedGraph3.Print();
+
+    std::cout << std::endl << std::endl;
+
+    ShortestPath<char, double> testDijstra3(testWeightedGraph3);
+    testDijstra3.DijkstraShortestPath(S);
+
+    std::cout << std::endl << std::endl;
 }
