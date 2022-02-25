@@ -234,19 +234,14 @@ class ShortestPath
             {
                 size_t neighbor_idx = find(Graph.Vertices, *neighbor);
 
-                //    If there is shorter path to v through current_vertex.
+                // If there is shorter path to neighbor through current_vertex.
                 if (Distance[neighbor_idx] > Distance[curr_vertex_idx] + *weight)
                 {
-                    /*  If distance of v is not INF then it must be in
-                        our set, so removing it and inserting again
-                        with updated less distance.
-                        Note : We extract only those vertices from Set
-                        for which distance is finalized. So for them,
-                        we would never reach here.  */
+                    // If distance of neighbor is not INF then it must be inserted in our set
                     if (Distance[neighbor_idx] != INF)
                         setOfPairs.erase(setOfPairs.find(std::make_pair(Distance[neighbor_idx], *neighbor)));
 
-                    // Updating distance of v
+                    // Updating distance of neighbor
                     Distance[neighbor_idx] = Distance[curr_vertex_idx] + *weight;
                     setOfPairs.insert(std::make_pair(Distance[neighbor_idx], *neighbor));
                 }
