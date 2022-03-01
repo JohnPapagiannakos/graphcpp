@@ -1,4 +1,4 @@
-#include "GraphsLib.hpp"
+#include "GraphCpp.hpp"
 #include <cassert>
 
 int main()

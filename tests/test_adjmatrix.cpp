@@ -1,4 +1,4 @@
-#include "GraphsLib.hpp"
+#include "GraphCpp.hpp"
 #include <assert.h>
 
 int main()

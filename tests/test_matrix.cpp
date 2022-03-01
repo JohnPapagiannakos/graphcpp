@@ -1,4 +1,4 @@
-#include "GraphsLib.hpp"
+#include "GraphCpp.hpp"
 #include <assert.h>
 
 int main()
@@ -16,7 +16,10 @@ int main()
     AdjacencyMatrix notS(5, 2);
     notS.setConstant(2);
     notS(2, 1) = 4;
-    std::cout << notS.isSymmetric() << std::endl;
+    // std::cout << notS.isSymmetric() << std::endl;
+
+    notS += M;
+    notS.Print();
 
     AdjacencyMatrix S(3, 3);
     S.setConstant(2);

@@ -1,4 +1,4 @@
-#include "GraphsLib.hpp"
+#include "GraphCpp.hpp"
 #include <cassert>
 
 int main()
@@ -24,6 +24,9 @@ int main()
 
     std::cout << std::endl << std::endl;
 
+    Matrix<int> Adj = testWeightedGraph.getAdjacencyMatrix();
+    Adj.Print();
+
     // Example #2
     WeightedVertex<int, int> E0(0);
     WeightedVertex<int, int> E1(1);
@@ -41,4 +44,9 @@ int main()
 
     // Show Graph
     testWeightedGraph2.Print();
+
+    std::cout << std::endl << std::endl;
+
+    Matrix<int> Adj2 = testWeightedGraph2.getAdjacencyMatrix();
+    Adj2.Print();
 }
