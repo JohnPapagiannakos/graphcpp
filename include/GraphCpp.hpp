@@ -1,5 +1,5 @@
-#ifndef GRAPHS_HPP
-#define GRAPHS_HPP
+#ifndef GRAPHSCPP_HPP
+#define GRAPHSCPP_HPP
 
 #include <iostream>
 #include <vector>
