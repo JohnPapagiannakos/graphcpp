@@ -10,6 +10,8 @@
 #include "Constants.hpp"
 #include "Vertex.hpp"
 #include "AbstractGraph.hpp"
+#include "AbstractWeightedGraph.hpp"
+#include "Utils.hpp"
 
 template <typename T>
 class DFS
@@ -182,21 +184,6 @@ class ShortestPath
     // Store distances in a vector and initialize all distances as infinite (POSINF)
     std::vector<W> Distance;
 
-    size_t find(std::vector<WeightedVertex<T, W> *> &vec, WeightedVertex<T, W> *current_vertex)
-    {
-        typename std::vector<WeightedVertex<T, W> *>::iterator u_itr = vec.begin();
-        for (; u_itr != vec.end(); ++u_itr)
-        {
-            if (current_vertex->Value == (*u_itr)->Value)
-                break;
-            else
-                continue;
-        }
-        size_t curr_vertex_idx = std::distance(vec.begin(), u_itr);
-        assert(curr_vertex_idx>=0);
-        return curr_vertex_idx;
-    }
-
     void Print(WeightedVertex<T, W> rootVertex)
     {
         // Print shortest distances stored in Distance[]
@@ -233,14 +220,14 @@ class ShortestPath
             setOfPairs.erase(setOfPairs.begin());
 
             WeightedVertex<T, W> *current_vertex = current_pair.second;
-            
-            size_t curr_vertex_idx = find(Graph.Vertices, current_vertex);
+
+            size_t curr_vertex_idx = graphcpp::find(Graph.Vertices, current_vertex);
 
             typename std::vector<WeightedVertex<T, W> *>::iterator neighbor;
             typename std::vector<W>::iterator weight;
             for (neighbor = current_vertex->Neighbors.begin(), weight = current_vertex->Weight.begin(); neighbor != current_vertex->Neighbors.end(); ++neighbor, ++weight)
             {
-                size_t neighbor_idx = find(Graph.Vertices, *neighbor);
+                size_t neighbor_idx = graphcpp::find(Graph.Vertices, *neighbor);
 
                 // If there is shorter path to neighbor through current_vertex.
                 if (Distance[neighbor_idx] > Distance[curr_vertex_idx] + *weight)

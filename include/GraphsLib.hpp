@@ -7,6 +7,7 @@
 #include <algorithm>
 
 #include "Vertex.hpp"
+#include "Utils.hpp"
 #include "AbstractGraph.hpp"
 #include "AbstractWeightedGraph.hpp"
 #include "Algorithms.hpp"
