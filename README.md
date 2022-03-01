@@ -1,5 +1,8 @@
-GraphC++ (graphcpp) is a generic graph implementation written in C++
+## GraphC++ (graphcpp) 
 
-Creator : Yannis Marios Papagiannakos
+GraphC++ (2022) is a library that provides generic graph implementation written in C++ using containers of STL.
 
-More info : ... TODO!
+## Creator
+<li> Yannis Marios Papagiannakos </li>
+
+## Requirements
