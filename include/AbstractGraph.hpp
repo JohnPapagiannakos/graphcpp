@@ -160,6 +160,11 @@ class UndirectedGraphAdj : public UndirectedGraph<T>
             v_idx++;
         }
     }
+
+    AdjacencyMatrix getAdjacencyMatrix(void)
+    {
+        return this->A;
+    }
 };
 
 template <typename T>
@@ -218,6 +223,11 @@ public:
             }
             v_idx++;
         }
+    }
+
+    AdjacencyMatrix getAdjacencyMatrix(void)
+    {
+        return this->A;
     }
 };
 #endif

@@ -83,10 +83,10 @@ public:
         }
     }
 
-    Matrix<T> getAdjacencyMatrix(void)
+    Matrix<W> getAdjacencyMatrix(void)
     {
         size_t V = VerticesCount();
-        Matrix<T> Adj(V,V);
+        Matrix<W> Adj(V,V);
         Adj.setConstant(0);
         for (auto &v : Vertices)
         {
@@ -168,6 +168,11 @@ class UndirectedWeightedGraphAdj : public UndirectedWeightedGraph<T,W>
             v_idx++;
         }
     }
+
+    Matrix<W> getAdjacencyMatrix(void)
+    {
+        return this->A;
+    }
 };
 
 template <typename T, typename W>
@@ -226,6 +231,11 @@ public:
             }
             v_idx++;
         }
+    }
+    
+    Matrix<W> getAdjacencyMatrix(void)
+    {
+        return this->A;
     }
 };
 #endif
