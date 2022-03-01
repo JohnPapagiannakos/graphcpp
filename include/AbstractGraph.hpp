@@ -77,6 +77,23 @@ class AbstractGraph
         }
     }
 
+    AdjacencyMatrix getAdjacencyMatrix(void)
+    {
+        size_t V = VerticesCount();
+        AdjacencyMatrix Adj(V, V);
+        Adj.setConstant(0);
+        for (auto &v : Vertices)
+        {
+            size_t row = graphcpp::find(Vertices, v);
+            for (auto &neighbor : v->Neighbors)
+            {
+                size_t col = graphcpp::find(Vertices, neighbor);
+                Adj(row, col) = 1;
+            }
+        }
+        return Adj;
+    }
+
     ~AbstractGraph() {}
 };
 

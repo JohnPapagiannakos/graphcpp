@@ -5,6 +5,7 @@
 #include <vector>
 #include "Vertex.hpp"
 #include "Matrix.hpp"
+#include "Utils.hpp"
 
 template <typename T, typename W>
 class AbstractWeightedGraph
@@ -80,6 +81,25 @@ public:
             }
             std::cout << std::endl;
         }
+    }
+
+    Matrix<T> getAdjacencyMatrix(void)
+    {
+        size_t V = VerticesCount();
+        Matrix<T> Adj(V,V);
+        Adj.setConstant(0);
+        for (auto &v : Vertices)
+        {
+            size_t row = graphcpp::find(Vertices, v);
+            typename std::vector<W>::iterator weight = v->Weight.begin();
+            for (auto &neighbor : v->Neighbors)
+            {
+                size_t col = graphcpp::find(Vertices, neighbor);
+                Adj(row,col) = *weight;
+                weight++;
+            }
+        }
+        return Adj;
     }
 
     ~AbstractWeightedGraph() {}
