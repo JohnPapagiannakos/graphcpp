@@ -6,6 +6,8 @@ SET(TEST_SRC_FILE_NAMES test_matrix
                         test_DFS
                         test_weighted_graph
                         test_shortest_path
+                        test_btree
+                        test_bst
                         )
 
 INCLUDE_DIRECTORIES(${INCLUDE_DIR})
