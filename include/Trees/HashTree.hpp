@@ -1,5 +1,5 @@
-#ifndef BTREE_HPP
-#define BTREE_HPP
+#ifndef HTREE_HPP
+#define HTREE_HPP
 
 #include <math.h>
 #include <utility>
